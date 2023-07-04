@@ -101,6 +101,8 @@ void set_sideled_color(uint8_t led_start, uint8_t led_end, CRGB color) {
   if(led_start >= SIDELED_NUM_LEDS || led_end > SIDELED_NUM_LEDS || led_start >= led_end) return;
   for(uint8_t a = led_start; a < led_end; a++) {
     leds_color[a] = color;
+    leds_current[a] = color;
   }
   changed = true;
+  FastLED.show();
 }

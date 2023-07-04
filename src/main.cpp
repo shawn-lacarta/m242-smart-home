@@ -149,12 +149,12 @@ void setup() {
   init_display();
   Serial.begin(115200);
   // Uncomment the following lines to enable WiFi and MQTT
-  //lv_obj_t * wifiConnectingBox = show_message_box_no_buttons("Connecting to WiFi...");
-  //lv_task_handler();
-  //delay(5);
-  //setup_wifi();
-  //mqtt_init(mqtt_callback);
-  //close_message_box(wifiConnectingBox);
+  lv_obj_t * wifiConnectingBox = show_message_box_no_buttons("Connecting to WiFi...");
+  lv_task_handler();
+  delay(5);
+  setup_wifi();
+  mqtt_init(mqtt_callback);
+  close_message_box(wifiConnectingBox);
   init_gui_elements();
   init_sideled();
 }

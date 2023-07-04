@@ -15,12 +15,14 @@ lv_obj_t * led;
 
 lv_obj_t * red_checkbox;
 lv_obj_t * blue_checkbox;
+lv_obj_t * white_checkbox;
 
 lv_obj_t * off_checkbox;
 lv_obj_t * on_checkbox;
 lv_obj_t * blink_checkbox;
 
 lv_obj_t * left_button;
+lv_obj_t * middle_button;
 lv_obj_t * right_button;
 
 void event_handler_checkbox(struct _lv_obj_t * obj, lv_event_t event) {
@@ -66,26 +68,30 @@ void event_handler_button(struct _lv_obj_t * obj, lv_event_t event) {
     uint8_t state = SIDELED_STATE_OFF;
     if(lv_checkbox_is_checked(on_checkbox)) state = SIDELED_STATE_ON;
     if(lv_checkbox_is_checked(blink_checkbox)) state = SIDELED_STATE_BLINK;
+    //TODO: define range for each LED 
     set_sideled_color(led_start,led_end, color);
     set_sideled_state(led_start,led_end, state);
   }
 }
 
 void init_gui_elements() {
-  add_label("1. Select Color", 10, 10);
+  add_label("Color: ", 10, 10);
   red_checkbox = add_checkbox("Red", 10, 40, event_handler_checkbox);
   blue_checkbox = add_checkbox("Blue", 120, 40, event_handler_checkbox);
-  add_label("2. Select Mode", 10, 70);
+  white_checkbox = add_checkbox("White", 200, 40, event_handler_checkbox);
+  add_label("Status: ", 10, 73);
   off_checkbox = add_checkbox("Off", 10, 100, event_handler_checkbox);
   on_checkbox = add_checkbox("On", 120, 100, event_handler_checkbox);
   blink_checkbox = add_checkbox("Blink", 200, 100, event_handler_checkbox);
-  add_label("3. Apply Color to side:", 10, 140);
-  left_button = add_button("Apply Left", event_handler_button, 0, 170, 150, 50);
-  right_button = add_button("Apply Right", event_handler_button, 160, 170, 150, 50);
+  left_button = add_button("Room 1", event_handler_button, 0, 140, 150, 50);
+  middle_button = add_button("Room 2", event_handler_button, 160, 140, 150, 50);
+  right_button = add_button("Room 3", event_handler_button, 0, 191, 150, 50);
 
   lv_obj_set_click(left_button, false);
+  lv_obj_set_click(middle_button, false);
   lv_obj_set_click(right_button, false);
   lv_obj_set_state(left_button, LV_STATE_DISABLED);
+  lv_obj_set_state(middle_button, LV_STATE_DISABLED);
   lv_obj_set_state(right_button, LV_STATE_DISABLED);
 }
 

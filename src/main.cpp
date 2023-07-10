@@ -21,18 +21,24 @@ lv_obj_t * off_checkbox;
 lv_obj_t * on_checkbox;
 lv_obj_t * blink_checkbox;
 
-lv_obj_t * left_button;
-lv_obj_t * middle_button;
-lv_obj_t * right_button;
+lv_obj_t * room1_button;
+lv_obj_t * room2_button;
+lv_obj_t * room3_button;
 
 void event_handler_checkbox(struct _lv_obj_t * obj, lv_event_t event) {
   if(event == LV_EVENT_VALUE_CHANGED ) {
+    if ((obj == room1_button || obj == room2_button || obj == room3_button) &&
+            (lv_checkbox_is_checked(room1_button) || lv_checkbox_is_checked(room2_button) || lv_checkbox_is_checked(room3_button))) {
+            lv_checkbox_set_checked(room1_button, obj == room1_button ? lv_checkbox_is_checked(room1_button) : false);
+            lv_checkbox_set_checked(room3_button, obj == room3_button ? lv_checkbox_is_checked(room3_button) : false);
+        }
     if(
-      (obj == red_checkbox || obj == blue_checkbox) &&
-      (lv_checkbox_is_checked(red_checkbox) || lv_checkbox_is_checked(blue_checkbox))
+      (obj == red_checkbox || obj == blue_checkbox || obj == white_checkbox) &&
+      (lv_checkbox_is_checked(red_checkbox) || lv_checkbox_is_checked(blue_checkbox) || lv_checkbox_is_checked(white_checkbox))
       ) {
       lv_checkbox_set_checked(blue_checkbox, obj == blue_checkbox ? lv_checkbox_is_checked(blue_checkbox) : false);
       lv_checkbox_set_checked(red_checkbox, obj == red_checkbox ? lv_checkbox_is_checked(red_checkbox) : false);
+      lv_checkbox_set_checked(white_checkbox, obj == white_checkbox ? lv_checkbox_is_checked(white_checkbox) : false);
     }
     if(
       (obj == off_checkbox || obj == on_checkbox || obj == blink_checkbox) &&
@@ -45,7 +51,11 @@ void event_handler_checkbox(struct _lv_obj_t * obj, lv_event_t event) {
     bool is_ready = (
         ((
         (lv_checkbox_is_checked(red_checkbox) && !lv_checkbox_is_checked(blue_checkbox)) ||
-        (!lv_checkbox_is_checked(red_checkbox) && lv_checkbox_is_checked(blue_checkbox))
+        (!lv_checkbox_is_checked(red_checkbox) && lv_checkbox_is_checked(blue_checkbox)) ||
+        (!lv_checkbox_is_checked(blue_checkbox) && lv_checkbox_is_checked(white_checkbox)) ||
+        (!lv_checkbox_is_checked(red_checkbox) && lv_checkbox_is_checked(white_checkbox)) ||
+        (!lv_checkbox_is_checked(white_checkbox) && lv_checkbox_is_checked(blue_checkbox))||
+        (!lv_checkbox_is_checked(white_checkbox) && lv_checkbox_is_checked(red_checkbox))
       ) &&
       (
         (!lv_checkbox_is_checked(off_checkbox) && lv_checkbox_is_checked(on_checkbox) && !lv_checkbox_is_checked(blink_checkbox)) ||
@@ -53,24 +63,27 @@ void event_handler_checkbox(struct _lv_obj_t * obj, lv_event_t event) {
       )) || (
         (lv_checkbox_is_checked(off_checkbox) && !lv_checkbox_is_checked(on_checkbox) && !lv_checkbox_is_checked(blink_checkbox))
       ));
-    lv_obj_set_click(left_button, is_ready);
-    lv_obj_set_click(right_button, is_ready);
-    lv_obj_set_state(left_button, is_ready ? LV_STATE_DEFAULT : LV_STATE_DISABLED);
-    lv_obj_set_state(right_button, is_ready ? LV_STATE_DEFAULT : LV_STATE_DISABLED);
+    lv_obj_set_click(room1_button, is_ready);
+    lv_obj_set_click(room3_button, is_ready);
+    lv_obj_set_click(room2_button, is_ready);
+    lv_obj_set_state(room1_button, is_ready ? LV_STATE_DEFAULT : LV_STATE_DISABLED);
+    lv_obj_set_state(room3_button, is_ready ? LV_STATE_DEFAULT : LV_STATE_DISABLED);
+    lv_obj_set_state(room2_button, is_ready ? LV_STATE_DEFAULT : LV_STATE_DISABLED);
   } 
 }
 
 void event_handler_button(struct _lv_obj_t * obj, lv_event_t event) {
   if(event == LV_EVENT_PRESSED) {
-    uint8_t led_start = (obj == right_button ? 0 : 5);
-    uint8_t led_end = (obj == right_button ? 5 : 10);
-    CRGB color = lv_checkbox_is_checked(blue_checkbox) ? CRGB::Blue : CRGB::Red;
+    uint8_t led_room1 = (obj == room3_button ? 0 : 4);
+    uint8_t led_room2 = (obj == room3_button ? 4 : 11);
+    uint8_t led_room3 = (obj == room3_button ? 11 : 30);
+    CRGB color = lv_checkbox_is_checked(blue_checkbox) ? CRGB::Blue : (lv_checkbox_is_checked(red_checkbox) ? CRGB::Red : CRGB::White);
     uint8_t state = SIDELED_STATE_OFF;
     if(lv_checkbox_is_checked(on_checkbox)) state = SIDELED_STATE_ON;
     if(lv_checkbox_is_checked(blink_checkbox)) state = SIDELED_STATE_BLINK;
     //TODO: define range for each LED 
-    set_sideled_color(led_start,led_end, color);
-    set_sideled_state(led_start,led_end, state);
+    set_sideled_color(led_room1, led_room2, led_room3, color);
+    set_sideled_state(led_room1, led_room2, led_room3, state);
   }
 }
 
@@ -83,16 +96,16 @@ void init_gui_elements() {
   off_checkbox = add_checkbox("Off", 10, 100, event_handler_checkbox);
   on_checkbox = add_checkbox("On", 120, 100, event_handler_checkbox);
   blink_checkbox = add_checkbox("Blink", 200, 100, event_handler_checkbox);
-  left_button = add_button("Room 1", event_handler_button, 0, 140, 150, 50);
-  middle_button = add_button("Room 2", event_handler_button, 160, 140, 150, 50);
-  right_button = add_button("Room 3", event_handler_button, 0, 191, 150, 50);
+  room1_button = add_button("Room 1", event_handler_button, 0, 140, 150, 50);
+  room2_button = add_button("Room 2", event_handler_button, 160, 140, 150, 50);
+  room3_button = add_button("Room 3", event_handler_button, 0, 191, 150, 50);
 
-  lv_obj_set_click(left_button, false);
-  lv_obj_set_click(middle_button, false);
-  lv_obj_set_click(right_button, false);
-  lv_obj_set_state(left_button, LV_STATE_DISABLED);
-  lv_obj_set_state(middle_button, LV_STATE_DISABLED);
-  lv_obj_set_state(right_button, LV_STATE_DISABLED);
+  lv_obj_set_click(room1_button, false);
+  lv_obj_set_click(room2_button, false);
+  lv_obj_set_click(room3_button, false);
+  lv_obj_set_state(room1_button, LV_STATE_DISABLED);
+  lv_obj_set_state(room2_button, LV_STATE_DISABLED);
+  lv_obj_set_state(room3_button, LV_STATE_DISABLED);
 }
 
 

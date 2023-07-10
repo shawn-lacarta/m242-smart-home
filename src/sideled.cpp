@@ -12,7 +12,31 @@ unsigned long next_effekt = 0;
 void LEDtask(void *arg){
   while (1){
     if(changed) {
-      for(int a = 0; a < SIDELED_NUM_LEDS; a++) {
+      for(int a = 0; a < 4; a++) {
+        leds_current[a] = leds_color[a];
+        if(leds_state[a] == SIDELED_STATE_OFF) {
+          leds_current[a] = CRGB::Black;
+        }
+        if(leds_state[a] == SIDELED_STATE_FADE) {
+          leds_state[a] = SIDELED_STATE_FADE_RG;
+          leds_current[a].blue = 0x00;
+          leds_current[a].red = 0xFF;
+          leds_current[a].green = 0x00;
+        }
+      }
+      for(int a = 4; a < 11; a++) {
+        leds_current[a] = leds_color[a];
+        if(leds_state[a] == SIDELED_STATE_OFF) {
+          leds_current[a] = CRGB::Black;
+        }
+          if(leds_state[a] == SIDELED_STATE_FADE) {
+          leds_state[a] = SIDELED_STATE_FADE_RG;
+          leds_current[a].blue = 0x00;
+          leds_current[a].red = 0xFF;
+          leds_current[a].green = 0x00;
+        }
+      }
+      for(int a = 11; a < 30; a++) {
         leds_current[a] = leds_color[a];
         if(leds_state[a] == SIDELED_STATE_OFF) {
           leds_current[a] = CRGB::Black;
@@ -84,9 +108,31 @@ void init_sideled() {
     // Init FastLED
     FastLED.addLeds<NEOPIXEL, SIDELED_DATA_PIN>(leds_current, SIDELED_NUM_LEDS);
     // Start background task
+    xTaskCreate(LEDtask, "LEDTask", 4096, NULL, 10, NULL);
     xTaskCreatePinnedToCore(LEDtask, "LEDTask", 4096, NULL, 2, NULL, 0);
 }
 
+void set_sideled_state(uint8_t led_room1, uint8_t led_room2,uint8_t led_room3, uint8_t state) {
+  block = true;
+  if(led_room1 >= SIDELED_NUM_LEDS || led_room2 > SIDELED_NUM_LEDS || led_room3 > SIDELED_NUM_LEDS || led_room1 >= led_room2 >= led_room3) return;
+  for(uint8_t a = led_room1; a < led_room3; a++) {
+    leds_state[a] = state;
+  }
+  changed = true;
+}
+
+void set_sideled_color(uint8_t led_room1, uint8_t led_room2,uint8_t led_room3, CRGB color) {
+  block = true;
+  if(led_room1 >= SIDELED_NUM_LEDS || led_room2 > SIDELED_NUM_LEDS || led_room3 > SIDELED_NUM_LEDS || led_room1 >= led_room2 >= led_room3) return;
+  for(uint8_t a = led_room1; a < led_room3; a++) {
+    leds_color[a] = color;
+    leds_current[a] = color;
+  }
+  changed = true;
+  FastLED.show();
+}
+
+/*
 void set_sideled_state(uint8_t led_start, uint8_t led_end, uint8_t state) {
   block = true;
   if(led_start >= SIDELED_NUM_LEDS || led_end > SIDELED_NUM_LEDS || led_start >= led_end) return;
@@ -106,3 +152,4 @@ void set_sideled_color(uint8_t led_start, uint8_t led_end, CRGB color) {
   changed = true;
   FastLED.show();
 }
+*/

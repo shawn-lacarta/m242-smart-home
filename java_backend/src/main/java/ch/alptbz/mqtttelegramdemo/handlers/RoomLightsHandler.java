@@ -2,7 +2,6 @@ package ch.alptbz.mqtttelegramdemo.handlers;
 
 import ch.alptbz.mqtttelegramdemo.Main;
 import ch.alptbz.mqtttelegramdemo.mqtt.MqttConsumerInterface;
-import ch.alptbz.mqtttelegramdemo.singletons.Logger;
 import ch.alptbz.mqtttelegramdemo.telegram.TelegramConsumerInterface;
 import ch.alptbz.mqtttelegramdemo.telegram.TelegramSenderInterface;
 import com.pengrad.telegrambot.model.Update;
@@ -11,8 +10,8 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.util.logging.Level;
 
-import static ch.alptbz.mqtttelegramdemo.singletons.Config.getConfig;
-import static ch.alptbz.mqtttelegramdemo.singletons.MQTTClient.getMqttClient;
+import static ch.alptbz.mqtttelegramdemo.Main.getConfig;
+import static ch.alptbz.mqtttelegramdemo.mqtt.MQTTClient.getMqttClient;
 
 
 public class RoomLightsHandler implements MqttConsumerInterface, TelegramConsumerInterface {
@@ -78,6 +77,9 @@ public class RoomLightsHandler implements MqttConsumerInterface, TelegramConsume
             } else if (message.startsWith("/apartment-color-blue")) {
                 telegramSend.sendReply(update, "Setting color to Blue");
                 getMqttClient().publish(mqttRootTopic + mqttColor, "blue");
+            }else if (message.startsWith("/apartment-color-white")) {
+                telegramSend.sendReply(update, "Setting color to White");
+                getMqttClient().publish(mqttRootTopic + mqttColor, "white");
             }else if (message.startsWith("/apartment-status-blink")) {
                 telegramSend.sendReply(update, "Setting status to Blink");
                 getMqttClient().publish(mqttRootTopic + mqttStatus, "blink");
@@ -89,7 +91,7 @@ public class RoomLightsHandler implements MqttConsumerInterface, TelegramConsume
                 getMqttClient().publish(mqttRootTopic + mqttStatus, "off");
             }
         } catch (MqttException e) {
-            Logger.getLogger().log(Level.SEVERE, "failed sending mqtt message", e);
+            Main.getLogger().log(Level.SEVERE, "failed sending mqtt message", e);
         }
     }
 }

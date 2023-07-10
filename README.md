@@ -20,8 +20,11 @@ git clone https://github.com/shawn-lacarta/m242-smart-home.git
 ```
 Now open Visual Studio Code and download the **PlatformIO IDE** extension. Once you see an alien on your sidebar on Visual Studio Code, you are ready to go.
 
-### Control the LED-Stripe with a micro controller
 
+### Control the LED-Stripe with a micro controller
+Once the program is started with **Upload and Monitor**, you will find a GUI on the m5Stack.  
+![Screenshot](gui.png)  
+Here you can easily change the color and the room of the light. Also you can choose which room  your changes should apply on. You will shortly notice that your changes will be immidiately be applied on the LED-Stripe.
 
 ## Authors
 - Shawn Lacarta

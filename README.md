@@ -24,7 +24,11 @@ Now open Visual Studio Code and download the **PlatformIO IDE** extension. Once 
 ### Control the LED-Stripe with a micro controller
 Once the program is started with **Upload and Monitor**, you will find a GUI on the m5Stack.  
 ![Screenshot](gui.png)  
-Here you can easily change the color and the room of the light. Also you can choose which room  your changes should apply on. You will shortly notice that your changes will be immidiately be applied on the LED-Stripe.
+Here you can easily change the color and the room of the light. Also you can choose which room  your changes should apply on. You will shortly notice that your changes will be immidiately be applied on the LED-Stripe.  
+
+### Control the LED-Stripe via Telegram-Bot
+First of all you need a Telegram account. You can easily do this with you mobile number. Once you have a account, you can search up for the **BotFather**. Enter the chat and type **/start**. The next step is to enter **/newbot**. After that the bot will ask you to name your new bot. Once you entered your name for your new bot, a new chat will be generated and you will see the chat on your recent chats. You will also see a **generated token** to access the HTTP API. You will need to add this to the **config.properties** file under **telegram-apikey**. Once added, you can start up the main function. Now you can write messenges to the server like this:  
+![Screenshot](telegram.png)  
 
 ## Authors
 - Shawn Lacarta

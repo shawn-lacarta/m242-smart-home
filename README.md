@@ -32,6 +32,15 @@ First of all you need a Telegram account. You can easily do this with you mobile
 Your changes will reflect on the MQTT-Server, which will apply your changes to the micro controller (LED-Stripes).  
 ![Screenshot](mqtt.png)  
 
+### Help & Advices
+Here are some advices from us to you, when something is now going well: 
+- When you have problems with your micro controller, try to flash, build and run it again
+- The telegram server can only be ran by one person. So if you are getting an error, somebody is probably already using it
+- Check the official website of platformIO to find similar questions as you have now  
+
+
+
+  
 ## Authors
 - Shawn Lacarta
 - Anojan Pirabakaran

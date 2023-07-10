@@ -18,7 +18,7 @@ Once Git is installed on your device, open a terminal and paste the following co
 ```
 git clone https://github.com/shawn-lacarta/m242-smart-home.git
 ```
-Now open Visual Studio Code and download the **PlatformIO IDE** extension. When you see a alien on your sidebar on Visual Studio Code, you are ready to go.
+Now open Visual Studio Code and download the **PlatformIO IDE** extension. Once you see an alien on your sidebar on Visual Studio Code, you are ready to go.
 
 ### Control the LED-Stripe with a micro controller
 

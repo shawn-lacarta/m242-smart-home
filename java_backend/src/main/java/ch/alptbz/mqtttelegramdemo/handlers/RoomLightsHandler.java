@@ -77,17 +77,62 @@ public class RoomLightsHandler implements MqttConsumerInterface, TelegramConsume
             } else if (message.startsWith("/apartment-color-blue")) {
                 telegramSend.sendReply(update, "Setting color to Blue");
                 getMqttClient().publish(mqttRootTopic + mqttColor, "blue");
-            }else if (message.startsWith("/apartment-color-white")) {
+            } else if (message.startsWith("/apartment-color-white")) {
                 telegramSend.sendReply(update, "Setting color to White");
                 getMqttClient().publish(mqttRootTopic + mqttColor, "white");
-            }else if (message.startsWith("/apartment-status-blink")) {
+            } else if (message.startsWith("/apartment-status-blink")) {
                 telegramSend.sendReply(update, "Setting status to Blink");
                 getMqttClient().publish(mqttRootTopic + mqttStatus, "blink");
-            }else if (message.startsWith("/apartment-status-on")) {
+            } else if (message.startsWith("/apartment-status-on")) {
                 telegramSend.sendReply(update, "Setting status to On");
                 getMqttClient().publish(mqttRootTopic + mqttStatus, "on");
-            }else if (message.startsWith("/apartment-status-off")) {
+            } else if (message.startsWith("/apartment-status-off")) {
                 telegramSend.sendReply(update, "Setting status to off");
+                getMqttClient().publish(mqttRootTopic + mqttStatus, "off");
+            } else if (message.startsWith("/apartment-room1-day")) {
+                telegramSend.sendReply(update, "pre-saved configuration day for room 1");
+                getMqttClient().publish(mqttRootTopic + mqttRoom, "1");
+                getMqttClient().publish(mqttRootTopic + mqttColor, "blue");
+                getMqttClient().publish(mqttRootTopic + mqttStatus, "blink");
+            } else if (message.startsWith("/apartment-room2-day")) {
+                telegramSend.sendReply(update, "pre-saved configuration day for room 2");
+                getMqttClient().publish(mqttRootTopic + mqttRoom, "2");
+                getMqttClient().publish(mqttRootTopic + mqttColor, "blue");
+                getMqttClient().publish(mqttRootTopic + mqttStatus, "blink");
+            } else if (message.startsWith("/apartment-room3-day")) {
+                telegramSend.sendReply(update, "pre-saved configuration day for room 3");
+                getMqttClient().publish(mqttRootTopic + mqttRoom, "3");
+                getMqttClient().publish(mqttRootTopic + mqttColor, "blue");
+                getMqttClient().publish(mqttRootTopic + mqttStatus, "blink");
+            } else if (message.startsWith("/apartment-room1-sleep")) {
+                telegramSend.sendReply(update, "pre-saved configuration sleep for room 1");
+                getMqttClient().publish(mqttRootTopic + mqttRoom, "1");
+                getMqttClient().publish(mqttRootTopic + mqttColor, "white");
+                getMqttClient().publish(mqttRootTopic + mqttStatus, "on");
+            } else if (message.startsWith("/apartment-room2-sleep")) {
+                telegramSend.sendReply(update, "pre-saved configuration sleep for room 2");
+                getMqttClient().publish(mqttRootTopic + mqttRoom, "2");
+                getMqttClient().publish(mqttRootTopic + mqttColor, "white");
+                getMqttClient().publish(mqttRootTopic + mqttStatus, "on");
+            } else if (message.startsWith("/apartment-room3-sleep")) {
+                telegramSend.sendReply(update, "pre-saved configuration sleep for room 3");
+                getMqttClient().publish(mqttRootTopic + mqttRoom, "3");
+                getMqttClient().publish(mqttRootTopic + mqttColor, "white");
+                getMqttClient().publish(mqttRootTopic + mqttStatus, "on");
+            } else if (message.startsWith("/apartment-room1-leaving")) {
+                telegramSend.sendReply(update, "pre-saved configuration leaving for room 1");
+                getMqttClient().publish(mqttRootTopic + mqttRoom, "1");
+                getMqttClient().publish(mqttRootTopic + mqttColor, "");
+                getMqttClient().publish(mqttRootTopic + mqttStatus, "off");
+            } else if (message.startsWith("/apartment-room2-leaving")) {
+                telegramSend.sendReply(update, "pre-saved configuration leaving for room 2");
+                getMqttClient().publish(mqttRootTopic + mqttRoom, "2");
+                getMqttClient().publish(mqttRootTopic + mqttColor, "");
+                getMqttClient().publish(mqttRootTopic + mqttStatus, "off");
+            } else if (message.startsWith("/apartment-room3-leaving")) {
+                telegramSend.sendReply(update, "pre-saved configuration leaving for room 3");
+                getMqttClient().publish(mqttRootTopic + mqttRoom, "3");
+                getMqttClient().publish(mqttRootTopic + mqttColor, "");
                 getMqttClient().publish(mqttRootTopic + mqttStatus, "off");
             }
         } catch (MqttException e) {

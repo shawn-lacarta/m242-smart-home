@@ -88,16 +88,16 @@ void event_handler_button(struct _lv_obj_t * obj, lv_event_t event) {
         // Check which room is selected
     if (lv_checkbox_is_checked(room1_button)) {
       // Room 1 selected
-      led_start = 0;
-      led_end = 4;
+      led_start = 11;
+      led_end = 30;
     } else if (lv_checkbox_is_checked(room2_button)) {
       // Room 2 selected
-      led_start = 5;
+      led_start = 4;
       led_end = 11;
     } else if (lv_checkbox_is_checked(room3_button)) {
       // Room 3 selected
-      led_start = 12;
-      led_end = 30;
+      led_start = 0;
+      led_end = 4;
     }
   }
  set_sideled_color(led_start, led_end, color);

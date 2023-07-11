@@ -20,8 +20,8 @@
 
 void init_sideled();
 
-void set_sideled_state(uint8_t led_room1, uint8_t led_room2,uint8_t led_room3, uint8_t state);
+void set_sideled_state(uint8_t led_start, uint8_t led_end, uint8_t state);
 
-void set_sideled_color(uint8_t led_room1, uint8_t led_room2,uint8_t led_room3, CRGB color);
+void set_sideled_color(uint8_t led_start, uint8_t led_end, CRGB color);
 
 #endif /* SIDELED_H_ */

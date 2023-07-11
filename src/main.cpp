@@ -74,17 +74,36 @@ void event_handler_checkbox(struct _lv_obj_t * obj, lv_event_t event) {
 
 void event_handler_button(struct _lv_obj_t * obj, lv_event_t event) {
   if(event == LV_EVENT_PRESSED) {
-    uint8_t led_room1 = (obj == room3_button ? 0 : 4);
-    uint8_t led_room2 = (obj == room3_button ? 4 : 11);
-    uint8_t led_room3 = (obj == room3_button ? 11 : 30);
+    uint8_t led_start = 0;
+    uint8_t led_end = 0;
     CRGB color = lv_checkbox_is_checked(blue_checkbox) ? CRGB::Blue : (lv_checkbox_is_checked(red_checkbox) ? CRGB::Red : CRGB::White);
     uint8_t state = SIDELED_STATE_OFF;
     if(lv_checkbox_is_checked(on_checkbox)) state = SIDELED_STATE_ON;
     if(lv_checkbox_is_checked(blink_checkbox)) state = SIDELED_STATE_BLINK;
     //TODO: define range for each LED 
-    set_sideled_color(led_room1, led_room2, led_room3, color);
-    set_sideled_state(led_room1, led_room2, led_room3, state);
+ 
+    if (event == LV_EVENT_PRESSED) {
+    Serial.println("pressed");
+   
+        // Check which room is selected
+    if (lv_checkbox_is_checked(room1_button)) {
+      // Room 1 selected
+      led_start = 0;
+      led_end = 4;
+    } else if (lv_checkbox_is_checked(room2_button)) {
+      // Room 2 selected
+      led_start = 5;
+      led_end = 11;
+    } else if (lv_checkbox_is_checked(room3_button)) {
+      // Room 3 selected
+      led_start = 12;
+      led_end = 30;
+    }
   }
+ set_sideled_color(led_start, led_end, color);
+     set_sideled_state(led_start, led_end, state);
+  
+}
 }
 
 void init_gui_elements() {

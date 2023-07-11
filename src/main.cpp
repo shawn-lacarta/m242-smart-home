@@ -143,10 +143,17 @@ void mqtt_callback(char* topic, byte* payload, unsigned int length) {
   Serial.println("Received payload: " + payloadS);
 
   if (String(topic) == "example") {
-    if (payloadS == "on") {
-      lv_led_on(led);
+    if (payloadS == "1") {
+      if (payloadS == "blink"){
+        if (payloadS == "white")
+        {
+          set_sideled_color(11, 30, CRGB::White);
+     set_sideled_state(11, 30, SIDELED_STATE_BLINK);
+        }
+        
+      }
     }
-    if (payloadS == "off") {
+    if (payloadS == "on" && payloadS == "1") {
       lv_led_off(led);
     }
   }
@@ -179,7 +186,7 @@ void loop() {
   }
 
   // Uncomment the following lines to enable MQTT
-  // mqtt_loop();
+  mqtt_loop();
 }
 
 // ----------------------------------------------------------------------------

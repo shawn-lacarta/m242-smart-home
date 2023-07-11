@@ -1,6 +1,6 @@
 # Modul 242 - Smart Home
 If you want to start with "smarthome" this is a perfect way to start modernizing your house. 
-This guide will show how to change the colors of a LED strip using a telegramm-bot and a micro controller.
+This guide will show how to change the colors of a LED strip using a Telegram bot and a micro controller.
 Since we didn't have a house available, we built a small house out of cardboard as a demo and divided it by different rooms. 
 For the room we have chosen to have three rooms with the names room1, room2 and room3
 This way we can simulate the whole thing.

@@ -133,21 +133,25 @@ void init_gui_elements() {
 // ----------------------------------------------------------------------------
 
 void mqtt_callback(char* topic, byte* payload, unsigned int length) {
-  // Parse Payload into String
-  char * buf = (char *)malloc((sizeof(char)*(length+1)));
+  char* buf = (char*)malloc((sizeof(char) * (length + 1)));
   memcpy(buf, payload, length);
   buf[length] = '\0';
   String payloadS = String(buf);
   payloadS.trim();
 
-  if(String(topic) == "example") {
-    if(payloadS == "on") {
+  // Print payload to console
+  Serial.println("Received payload: " + payloadS);
+
+  if (String(topic) == "example") {
+    if (payloadS == "on") {
       lv_led_on(led);
     }
-    if(payloadS == "off") {
+    if (payloadS == "off") {
       lv_led_off(led);
     }
   }
+
+  free(buf); // Free allocated memory
 }
 
 
